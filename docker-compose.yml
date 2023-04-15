@@ -28,3 +28,14 @@ services:
       - '.:/var/www/html'
     networks:
       - app
+  composer:
+    build:
+      context: .
+      dockerfile: .docker/php.dockerfile
+    container_name: "composer-${APP_NAME:-app}"
+    entrypoint: [ "composer" ]
+    volumes:
+      - '.:/var/www/html'
+    networks:
+      - app
+
