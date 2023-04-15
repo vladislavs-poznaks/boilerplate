@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 networks:
   app:
@@ -14,9 +14,9 @@ services:
     depends_on:
       - php
     volumes:
-      - '.:/var/www/html'
+      - .:/var/www/html
     ports:
-      - '${APP_PORT:-80}:80'
+      - "${APP_PORT:-80}:80"
     networks:
       - app
   php:
@@ -25,7 +25,7 @@ services:
       dockerfile: .docker/php.dockerfile
     container_name: "php-${APP_NAME:-app}"
     volumes:
-      - '.:/var/www/html'
+      - .:/var/www/html
     networks:
       - app
   composer:
@@ -35,7 +35,7 @@ services:
     container_name: "composer-${APP_NAME:-app}"
     entrypoint: [ "composer" ]
     volumes:
-      - '.:/var/www/html'
+      - .:/var/www/html
     networks:
       - app
 
