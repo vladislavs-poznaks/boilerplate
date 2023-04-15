@@ -7,7 +7,7 @@ APP_NAME=
 APP_PORT=
 ```
 
-# Setup
+### Setup
 
 Copy .env variables
 
@@ -17,7 +17,7 @@ Install the dependencies
 
 ``docker compose run --rm composer install``
 
-# Running the project
+### Running the project
 
 To avoid running helper containers, only nginx needs to be started which will start the containers on which it depends
 
