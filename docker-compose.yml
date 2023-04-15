@@ -1,0 +1,29 @@
+version: '3.8'
+
+networks:
+  app:
+    driver: bridge
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: .docker/nginx.dockerfile
+    container_name: nginx-app
+    depends_on:
+      - php
+    volumes:
+      - '.:/var/www/html'
+    ports:
+      - '8787:80'
+    networks:
+      - app
+  php:
+    build:
+      context: .
+      dockerfile: .docker/php.dockerfile
+    container_name: php-app
+    volumes:
+      - '.:/var/www/html'
+    networks:
+      - app
