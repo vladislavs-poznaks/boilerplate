@@ -1,5 +1,10 @@
 version: "3.8"
 
+volumes:
+  app-mysql-data:
+    name: "${APP_NAME:-app}-mysql-data"
+    driver: local
+
 networks:
   app:
     name: "${APP_NAME:-app}-network"
@@ -13,6 +18,7 @@ services:
     container_name: "nginx-${APP_NAME:-app}"
     depends_on:
       - php
+      - mysql
     volumes:
       - .:/var/www/html
     ports:
@@ -28,6 +34,25 @@ services:
       - .:/var/www/html
     networks:
       - app
+  mysql:
+    image: mysql:8.0
+    container_name: "mysql-${APP_NAME:-app}"
+    ports:
+      - "${FORWARD_DB_PORT:-3706}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD:-secret}"
+      MYSQL_DATABASE: "${DB_DATABASE:-app}"
+      MYSQL_USER: "${DB_USERNAME:-app}"
+      MYSQL_PASSWORD: "${DB_PASSWORD:-secret}"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - app-mysql-data:/var/lib/mysql
+    networks:
+      - app
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}" ]
+      retries: 3
+      timeout: 5s
   composer:
     build:
       context: .
