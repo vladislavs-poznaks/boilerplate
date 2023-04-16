@@ -63,4 +63,14 @@ services:
       - .:/var/www/html
     networks:
       - app
+  migrations:
+    build:
+      context: .
+      dockerfile: .docker/php.dockerfile
+    container_name: "migrations-${APP_NAME:-app}"
+    entrypoint: [ "./vendor/bin/doctrine-migrations" ]
+    volumes:
+      - .:/var/www/html
+    networks:
+      - app
 
