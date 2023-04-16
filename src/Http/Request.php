@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http;
 
+use App\Dto\Dto;
+use App\Http\Exceptions\ValidationException;
+use Valitron\Validator;
+
 class Request
 {
     public const METHOD_GET = 'GET';
@@ -16,9 +20,27 @@ class Request
         'GET', 'POST', 'PUT', 'PATCH', 'DELETE',
     ];
 
+    protected Validator $validator;
+
+    public function __construct()
+    {
+        $this->validator = new Validator($this->all());
+
+        $this->validator->rules($this->rules());
+
+        if (! $this->validator->validate()) {
+            throw new ValidationException($this);
+        }
+    }
+
     public function all(): array
     {
-        return json_decode(file_get_contents('php://input'), true) ?? [];
+        return json_decode(file_get_contents('php://input'), true);
+    }
+
+    public function dto(): Dto
+    {
+        return new Dto();
     }
 
     public function rules(): array
@@ -26,6 +48,16 @@ class Request
         return [
             // Validation rules
         ];
+    }
+
+    public function getHttpErrorCode(): HttpCode
+    {
+        return HttpCode::BAD_REQUEST;
+    }
+
+    public function errors(?string $field = null): array|bool
+    {
+        return $this->validator->errors($field);
     }
 
     public static function method(): string
