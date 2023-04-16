@@ -5,6 +5,8 @@ The app name and port can be configured via .env variables
 ```text
 APP_NAME=
 APP_PORT=
+
+FORWARD_DB_PORT=
 ```
 
 ### Setup
