@@ -24,6 +24,7 @@ final class Version20230416125747 extends AbstractMigration
 
         $users
             ->addColumn('id', Types::BIGINT)
+            ->setAutoincrement(true)
             ->setUnsigned(true);
 
         $users
@@ -48,7 +49,7 @@ final class Version20230416125747 extends AbstractMigration
 
         $users
             ->addColumn('updated_at', Types::DATETIME_MUTABLE)
-            ->setColumnDefinition('DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
+            ->setColumnDefinition('DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
 
         $users
             ->setPrimaryKey([
