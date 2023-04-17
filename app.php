@@ -1,7 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 use function DI\create;
 
 return [
-    // Bindings
+    \App\Repositories\Users\UserRepository::class => create(\App\Repositories\Users\UserDatabaseRepository::class),
 ];
