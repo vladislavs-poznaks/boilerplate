@@ -4,10 +4,14 @@ namespace App\Repositories;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\ORMSetup;
 
 class DatabaseRepository
 {
     protected static ?Connection $connection = null;
+
+    protected static ?EntityManager $entityManager = null;
 
     protected array $connectionParameters = [];
 
@@ -22,7 +26,30 @@ class DatabaseRepository
         ];
     }
 
-    public function getConnection()
+    public static function connection(): Connection
+    {
+        if (is_null(static::$connection)) {
+            $repository = new self();
+
+            static::$connection = $repository->getConnection();
+        }
+
+        return static::$connection;
+    }
+
+    public static function entityManager(): EntityManager
+    {
+        if (is_null(static::$entityManager)) {
+            static::$entityManager = new EntityManager(
+                static::connection(),
+                ORMSetup::createAttributeMetadataConfiguration([__DIR__ . '/../Models'])
+            );
+        }
+
+        return static::$entityManager;
+    }
+
+    private function getConnection(): Connection
     {
         return DriverManager::getConnection($this->connectionParameters);
     }
