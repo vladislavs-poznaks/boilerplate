@@ -6,7 +6,7 @@ namespace App\Dto\Users;
 
 use App\Dto\Dto;
 
-class UserDto extends Dto
+class UserRequestDto extends Dto
 {
     public function __construct(
         private readonly string $firstName,

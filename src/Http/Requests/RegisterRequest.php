@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use App\Dto\Users\UserDto;
+use App\Dto\Users\UserRequestDto;
 use App\Http\Request;
 
 class RegisterRequest extends Request
@@ -18,11 +18,11 @@ class RegisterRequest extends Request
         ];
     }
 
-    public function dto(): UserDto
+    public function dto(): UserRequestDto
     {
         $attributes = $this->all();
 
-        return new UserDto(
+        return new UserRequestDto(
             $attributes['firstName'],
             $attributes['lastName'],
             $attributes['email'],
