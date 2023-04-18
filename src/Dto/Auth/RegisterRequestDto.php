@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Dto\Users;
+namespace App\Dto\Auth;
 
 use App\Dto\Dto;
 
-class UserRequestDto extends Dto
+class RegisterRequestDto extends Dto
 {
     public function __construct(
         private readonly string $firstName,
