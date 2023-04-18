@@ -20,7 +20,8 @@ class UserRegistrationService
             $dto->getFirstName(),
             $dto->getLastName(),
             $dto->getEmail(),
-            $this->getHashedPassword($dto->getPassword())
+            $dto->getPassword(),
+//            $this->getHashedPassword($dto->getPassword())
         );
 
         $this->repository->persistAndSync($user);

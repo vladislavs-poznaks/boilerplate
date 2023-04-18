@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Dto\Users\UserRequestDto;
+use App\Types\CarbonType;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Doctrine\ORM\Mapping\Column;
@@ -21,10 +22,10 @@ class User
     #[Column, GeneratedValue]
     private int $id;
 
-    #[Column(name: 'created_at')]
+    #[Column(name: 'created_at', type: CarbonType::NAME)]
     private CarbonInterface $createdAt;
 
-    #[Column(name: 'updated_at')]
+    #[Column(name: 'updated_at', type: CarbonType::NAME)]
     private CarbonInterface $updatedAt;
 
     public function __construct(
@@ -57,6 +58,11 @@ class User
     public function getEmail(): string
     {
         return $this->email;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
     }
 
     public static function make(
