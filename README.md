@@ -16,7 +16,7 @@ FORWARD_DB_PORT=
 Application uses JWT, a private secret key needs to be provided
 
 ```text
-JWT_SECRET_KEY=SECRET-KEY
+JWT_SECRET_KEY="<YOUR-SECRET-KEY>"
 ```
 
 Optionally, password salt can be provided
