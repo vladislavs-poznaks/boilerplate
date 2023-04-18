@@ -4,33 +4,31 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Dto\Users\UserRequestDto;
+use App\Dto\Auth\RegisterRequestDto;
 use App\Models\User;
+use App\Models\ValueObjects\Password;
+use App\Models\ValueObjects\Token;
 use App\Repositories\Users\UserRepository;
 
-class UserRegistrationService
+class RegisterService
 {
     public function __construct(private UserRepository $repository)
     {
     }
 
-    public function process(UserRequestDto $dto): User
+    public function process(RegisterRequestDto $dto): Token
     {
+        $password = Password::fromPlainPassword($dto->getPassword());
+
         $user = User::make(
             $dto->getFirstName(),
             $dto->getLastName(),
             $dto->getEmail(),
-            $dto->getPassword(),
-//            $this->getHashedPassword($dto->getPassword())
+            $password,
         );
 
         $this->repository->persistAndSync($user);
 
-        return $user;
-    }
-
-    private function getHashedPassword(string $password): string
-    {
-        return md5($password);
+        return Token::issue($user);
     }
 }

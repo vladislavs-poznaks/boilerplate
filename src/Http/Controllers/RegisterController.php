@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterRequest;
-use App\Http\Resources\UserResource;
-use App\Services\UserRegistrationService;
+use App\Http\Resources\TokenResource;
+use App\Services\RegisterService;
 
 class RegisterController
 {
-    public function register(RegisterRequest $request, UserRegistrationService $service): string
+    public function register(RegisterRequest $request, RegisterService $service): string
     {
-        return UserResource::make($service->process($request->dto()));
+        return TokenResource::make($service->process($request->dto()));
     }
 }
