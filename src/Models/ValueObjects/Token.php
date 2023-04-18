@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\ValueObjects;
 
+use App\Exceptions\ValueObjects\TokenException;
 use App\Models\User;
-use App\ValueObjects\Exceptions\TokenException;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Exception;
