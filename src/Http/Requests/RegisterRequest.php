@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use App\Dto\Users\UserRequestDto;
+use App\Dto\Auth\RegisterRequestDto;
 use App\Http\Request;
 
 class RegisterRequest extends Request
 {
     public function rules(): array
     {
+        // TODO : Improve validation
         return [
             'required' => [
                 'firstName', 'lastName', 'email', 'password'
@@ -18,11 +19,11 @@ class RegisterRequest extends Request
         ];
     }
 
-    public function dto(): UserRequestDto
+    public function dto(): RegisterRequestDto
     {
         $attributes = $this->all();
 
-        return new UserRequestDto(
+        return new RegisterRequestDto(
             $attributes['firstName'],
             $attributes['lastName'],
             $attributes['email'],
