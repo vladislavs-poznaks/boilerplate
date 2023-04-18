@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Exceptions\Http\ValidationException;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
-use App\Http\Exceptions\ValidationException;
 use App\Http\HttpCode;
 use App\Http\Request;
 use App\Http\Response;
@@ -11,7 +12,10 @@ use App\Http\Response;
 $container = require __DIR__ . '/bootstrap.php';
 
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
+    $r->addRoute(Request::METHOD_POST, '/api/login', [LoginController::class, 'login']);
     $r->addRoute(Request::METHOD_POST, '/api/register', [RegisterController::class, 'register']);
+
+    // Implement protected route
 });
 
 $route = $dispatcher->dispatch(Request::method(), Request::uri());

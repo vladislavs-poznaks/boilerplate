@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http;
 
 use App\Dto\Dto;
-use App\Http\Exceptions\ValidationException;
+use App\Exceptions\Http\ValidationException;
 use Valitron\Validator;
 
 class Request
