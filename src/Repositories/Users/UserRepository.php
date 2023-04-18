@@ -8,6 +8,8 @@ use App\Models\User;
 
 interface UserRepository
 {
+    public function getByEmail(string $email): ?User;
+
     public function persist(User $user): void;
 
     public function sync(User $user): bool;
