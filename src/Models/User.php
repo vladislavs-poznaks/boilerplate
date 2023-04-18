@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Dto\Users\UserRequestDto;
+use App\Models\ValueObjects\Password;
 use App\Types\CarbonType;
+use App\Types\PasswordType;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Doctrine\ORM\Mapping\Column;
@@ -35,8 +36,8 @@ class User
         private string $lastName,
         #[Column(name: 'email')]
         private string $email,
-        #[Column(name: 'password')]
-        private string $password,
+        #[Column(name: 'password', type: PasswordType::NAME)]
+        private Password $password,
         ?CarbonInterface $createdAt = null,
         ?CarbonInterface $updatedAt = null
     )
@@ -60,7 +61,7 @@ class User
         return $this->email;
     }
 
-    public function getPassword(): string
+    public function getPassword(): Password
     {
         return $this->password;
     }
@@ -69,7 +70,7 @@ class User
         string $firstname,
         string $lastName,
         string $email,
-        string $password
+        Password $password
     ): self
     {
         return new self(

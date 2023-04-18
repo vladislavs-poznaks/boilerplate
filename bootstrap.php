@@ -10,6 +10,7 @@ $dotenv->load();
 
 // Doctrine ORM mapping types
 Type::addType(\App\Types\CarbonType::NAME, \App\Types\CarbonType::class);
+Type::addType(\App\Types\PasswordType::NAME, \App\Types\PasswordType::class);
 
 // IoC container
 $containerBuilder = new ContainerBuilder;
