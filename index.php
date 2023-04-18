@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Exceptions\Http\UnauthenticatedException;
 use App\Exceptions\Http\ValidationException;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
@@ -18,11 +19,12 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     // Implement protected route
 });
 
+// TODO : Consider wrapping this in some route resolver object
 $route = $dispatcher->dispatch(Request::method(), Request::uri());
 
 switch ($route[0]) {
     case FastRoute\Dispatcher::NOT_FOUND:
-        echo Response::json(['message' => 'Not found'], HttpCode::BAD_REQUEST);
+        echo Response::json(['message' => 'Not found'], HttpCode::NOT_FOUND);
         break;
     case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
         echo Response::json(['message' => 'Method not allowed'], HttpCode::METHOD_NOT_ALLOWED);
@@ -34,6 +36,10 @@ switch ($route[0]) {
 
         try {
             echo $container->call($route[1], $route[2] ?? []);
+        } catch (UnauthenticatedException $exception) {
+            echo Response::json([
+                'message' => 'Unauthorized'
+            ], HttpCode::UNAUTHORIZED);
         } catch (ValidationException $exception) {
             echo Response::json($exception->request->errors(), $exception->request->getHttpErrorCode());
         } catch (Exception $exception) {
