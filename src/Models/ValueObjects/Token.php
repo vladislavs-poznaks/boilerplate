@@ -16,23 +16,12 @@ class Token
 {
     private const ALG = 'HS256';
 
-    private CarbonInterface $issuedAt;
-    private CarbonInterface $expiresAt;
-
     public function __construct(
-        private string $token
+        private string $token,
+        private CarbonInterface $issuedAt,
+        private CarbonInterface $expiresAt,
     )
     {
-        $key = new Key(self::getKey(), self::ALG);
-
-        try {
-            $payload = JWT::decode($token, $key);
-        } catch (Exception $exception) {
-            throw new TokenException($exception->getMessage());
-        }
-
-        $this->issuedAt = Carbon::parse($payload->iss);
-        $this->expiresAt = Carbon::parse($payload->exp);
     }
 
     public function getToken(): string
@@ -50,28 +39,35 @@ class Token
         return $this->expiresAt;
     }
 
-    public static function make(string $token): self
-    {
-        return new self($token);
-    }
-
     public static function issue(User $user): self
-    {
-        $token = JWT::encode(self::getPayload($user), self::getKey(), self::ALG);
-
-        return new self($token);
-    }
-
-    private static function getPayload(User $user): array
     {
         $tokenIssuedAt = Carbon::now();
         $tokenExpiresAt = $tokenIssuedAt->clone()->addHour();
 
-        return [
+        $payload = [
             'email' => $user->getEmail(),
             'iss' => $tokenIssuedAt->unix(),
             'exp' => $tokenExpiresAt->unix(),
         ];
+
+        $token = JWT::encode($payload, self::getKey(), self::ALG);
+
+        return new self($token, $tokenIssuedAt, $tokenExpiresAt);
+    }
+
+    public static function validate(?string $token)
+    {
+        if (!$token) {
+            throw new TokenException('Missing token');
+        }
+
+        $key = new Key(self::getKey(), self::ALG);
+
+        try {
+            JWT::decode($token, $key);
+        } catch (Exception $exception) {
+            throw new TokenException($exception->getMessage());
+        }
     }
 
     private static function getKey(): string

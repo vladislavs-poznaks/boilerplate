@@ -14,7 +14,7 @@ abstract class AbstractAuthenticatedController
     public function __construct(Request $request)
     {
         try {
-            Token::make($request->getBearerToken());
+            Token::validate($request->getBearerToken());
         } catch (TokenException $exception) {
             throw new UnauthenticatedException($exception->getMessage());
         }
