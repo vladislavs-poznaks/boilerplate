@@ -15,8 +15,6 @@ $container = require __DIR__ . '/bootstrap.php';
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute(Request::METHOD_POST, '/api/login', [LoginController::class, 'login']);
     $r->addRoute(Request::METHOD_POST, '/api/register', [RegisterController::class, 'register']);
-
-    // Implement protected route
 });
 
 // TODO : Consider wrapping this in some route resolver object
@@ -31,8 +29,6 @@ switch ($route[0]) {
         break;
     case FastRoute\Dispatcher::FOUND:
         [$controller, $method] = $route[1];
-
-        $vars = $response[2] ?? [];
 
         try {
             echo $container->call($route[1], $route[2] ?? []);
