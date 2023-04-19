@@ -73,4 +73,14 @@ services:
       - .:/var/www/html
     networks:
       - app
+  phpunit:
+    build:
+      context: .
+      dockerfile: .docker/php.dockerfile
+    container_name: "phpunit-${APP_NAME:-app}"
+    entrypoint: [ "./vendor/bin/phpunit" ]
+    volumes:
+      - .:/var/www/html
+    networks:
+      - app
 
