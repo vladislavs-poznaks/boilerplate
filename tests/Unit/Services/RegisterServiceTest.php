@@ -33,13 +33,6 @@ class RegisterServiceTest extends TestCase
             'secret'
         );
 
-        $user = User::make(
-            'test',
-            'test',
-            'test@test.com',
-            Password::fromPlainPassword('secret')
-        );
-
         $userRepositoryMock
             ->shouldReceive('persistAndSync')
             ->withAnyArgs()
