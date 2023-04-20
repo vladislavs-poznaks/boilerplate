@@ -43,7 +43,7 @@ class Password
 
     private static function salt(string $password): string
     {
-        $salt = $_ENV['PASSWORD_SALT'];
+        $salt = $_ENV['PASSWORD_SALT'] ?? '';
 
         if (is_null($salt)) {
             return $password;
