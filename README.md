@@ -40,3 +40,11 @@ Install the dependencies
 To avoid running helper containers, only nginx needs to be started which will start the containers on which it depends
 
 ``docker compose up -d nginx``
+
+### Running migrations
+
+``docker compose run --rm migrations migrations:migrate``
+
+### Running tests
+
+``docker compose run --rm phpunit``
