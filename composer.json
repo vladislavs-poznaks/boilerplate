@@ -32,6 +32,7 @@
     "vlucas/valitron": "^1.4"
   },
   "require-dev": {
+    "mockery/mockery": "^1.5",
     "phpunit/phpunit": "^9.5"
   },
   "config": {
