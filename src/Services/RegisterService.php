@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Dto\Auth\RegisterRequestDto;
+use App\Exceptions\Services\RegisterServiceException;
 use App\Models\User;
 use App\Models\ValueObjects\Password;
 use App\Models\ValueObjects\Token;
@@ -27,7 +28,11 @@ class RegisterService
             $password,
         );
 
-        $this->repository->persistAndSync($user);
+        $persisted = $this->repository->persistAndSync($user);
+
+        if (!$persisted) {
+            throw new RegisterServiceException('Failed to persist user');
+        }
 
         return Token::issue($user);
     }
