@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit;
+namespace Tests\Unit\Services;
 
 use App\Dto\Auth\RegisterRequestDto;
 use App\Models\User;
