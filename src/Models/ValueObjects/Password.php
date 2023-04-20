@@ -22,11 +22,6 @@ class Password
         return !$this->isCorrect($password);
     }
 
-    public function getHashedPassword(): string
-    {
-        return $this->hashedPassword;
-    }
-
     public static function make(string $hashedPassword): self
     {
         return new self($hashedPassword);
