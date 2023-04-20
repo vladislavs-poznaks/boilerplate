@@ -5,4 +5,7 @@
             <directory>tests/Unit</directory>
         </testsuite>
     </testsuites>
+    <php>
+        <env name="JWT_SECRET_KEY" value="test" />
+    </php>
 </phpunit>
